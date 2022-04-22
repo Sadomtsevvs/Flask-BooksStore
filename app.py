@@ -11,6 +11,11 @@ def index():
 def profile(username: str):
     return render_template('profile.html', username=username.capitalize(), isActive=True)
 
+@app.route('/books')
+def books():
+    books = ['Book '+str(i) for i in range(1, 6)]
+    return render_template('books.html', books=books)
+
 
 # @app.route('/admin')
 # def welcome_admin():
