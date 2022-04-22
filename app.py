@@ -1,7 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+@app.route('/addbook')
+def addbook():
+    return render_template('addbook.html')
+
+@app.route('/submitbook', methods=['POST'])
+def submitbook():
+    name = request.form['name']
+    author = request.form['author']
+    return 'Book name is %s and author is %s' %(name, author)
+    # return render_template('addbook.html')
 
 @app.route('/')
 def index():
