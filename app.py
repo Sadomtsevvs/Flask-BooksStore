@@ -7,7 +7,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
+@app.route('/profile/<username>')
+def profile(username: str):
+    return render_template('profile.html', username=username.capitalize(), isActive=True)
 
 
 # @app.route('/admin')
