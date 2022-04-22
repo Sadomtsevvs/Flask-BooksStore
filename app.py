@@ -13,7 +13,11 @@ def profile(username: str):
 
 @app.route('/books')
 def books():
-    books = ['Book '+str(i) for i in range(1, 6)]
+    books = [{
+    'name': 'Book '+str(i),
+    'author': 'Author '+str(i),
+    'cover': 'https://bukovero.com/wp-content/uploads/2016/07/Harry_Potter_and_the_Cursed_Child_Special_Rehearsal_Edition_Book_Cover.jpg'
+    } for i in range(1, 6)]   
     return render_template('books.html', books=books)
 
 

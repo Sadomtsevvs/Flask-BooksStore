@@ -1,5 +1,8 @@
 <ul>
     {% for book in books %}
-    <li>{{book}}</li>
+    <li>
+        <img style="width: 100px; height: 150px;" src="{{book.cover}}">
+        {{book.name}} by {{book.author}}
+    </li>
     {% endfor%}
 </ul>
