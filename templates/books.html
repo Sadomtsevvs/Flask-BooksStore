@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
-{% block body %}
-<ul>
-    {% for book in books %}
-    <li>
-        <img style="width: 100px; height: 150px;" src="{{book.cover}}">
-        {{book.name}} by {{book.author}}
-    </li>
-    {% endfor%}
-</ul>    
-{% endblock %}
+<html>
+<head>
+    <title>Document</title>
+</head>
+<body>
+    {% block body %}
+    <div class="container">
+        <div class="row">
+            {% for book in books %}
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" style="width: 150px; height: 200px;" src={{book.cover}} alt="Card image cap">
+                    <div class="card-body">
+                      <h5 class="card-title">{{book.name}}</h5>
+                      <p class="card-text">{{book.author}}</p>
+                      <a href="#" class="btn btn-primary">Read now</a>
+                    </div>
+                </div>                
+            </div>
+            {% endfor%}
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
