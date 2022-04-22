@@ -1,10 +1,13 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
-    return 'This is the request made by the client %s' % request.headers
+    return render_template('index.html')
+
+
 
 
 # @app.route('/admin')
