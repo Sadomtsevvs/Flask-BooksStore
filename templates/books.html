@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block body %}
 <ul>
     {% for book in books %}
     <li>
@@ -5,4 +7,5 @@
         {{book.name}} by {{book.author}}
     </li>
     {% endfor%}
-</ul>
+</ul>    
+{% endblock %}
