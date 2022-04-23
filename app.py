@@ -21,6 +21,33 @@ class Book(db.Model):
 def addbook():
     return render_template('addbook.html')
 
+@app.route('/updatebooks')
+def updatebooks():
+    books = Book.query.all()
+    return render_template('updatebooks.html', books=books)
+
+@app.route('/update', methods=['POST'])
+def update():
+    oldname = request.form['oldname']
+    newname = request.form['newname']
+    newauthor = request.form['newauthor']
+
+    book = Book.query.filter_by(name=oldname).first()
+    book.name = newname
+    book.author = newauthor
+    db.session.commit()
+
+    return redirect('/books')
+
+@app.route('/delete', methods=['POST'])
+def delete():
+    name = request.form['name']
+    book = Book.query.filter_by(name=name).first()
+    db.session.delete(book)
+    db.session.commit()
+
+    return redirect('/books')
+
 @app.route('/submitbook', methods=['POST'])
 def submitbook():
     name = request.form['name']
