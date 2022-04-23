@@ -1,6 +1,21 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
+from flask_sqlalchemy import SQLAlchemy
+import os
+
+project_dir = os.path.dirname(os.path.abspath(__file__))
+database_file = "sqlite:///{}".format(os.path.join(project_dir, "mydatabase.db"))
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = database_file
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+class Book(db.Model):
+    name = db.Column(db.String(100), unique=True,
+                        nullable=False, primary_key=True)
+    author = db.Column(db.String(100), nullable=False)
+
 
 @app.route('/addbook')
 def addbook():
@@ -10,8 +25,11 @@ def addbook():
 def submitbook():
     name = request.form['name']
     author = request.form['author']
-    return 'Book name is %s and author is %s' %(name, author)
-    # return render_template('addbook.html')
+    book = Book(name=name, author=author)
+    db.session.add(book)
+    db.session.commit()
+
+    return redirect('/books')
 
 @app.route('/')
 def index():
@@ -23,28 +41,9 @@ def profile(username: str):
 
 @app.route('/books')
 def books():
-    books = [{
-    'name': 'Book '+str(i),
-    'author': 'Author '+str(i),
-    'cover': 'https://bukovero.com/wp-content/uploads/2016/07/Harry_Potter_and_the_Cursed_Child_Special_Rehearsal_Edition_Book_Cover.jpg'
-    } for i in range(1, 6)]   
+    books = Book.query.all()
     return render_template('books.html', books=books)
 
 
-# @app.route('/admin')
-# def welcome_admin():
-#     return '<h1>Welcome, admin!</h1>'
-
-# @app.route('/guest/<guest>')
-# def welcome_guest(guest):
-#     return '<h1>Welcome, %s!</h1>' % guest
-
-# @app.route('/user/<name>')
-# def welcome_user(name):
-#     if name == 'admin':
-#         return redirect(url_for('welcome_admin'))
-#     else:
-#         return redirect(url_for('welcome_guest', guest=name))
-
-
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
